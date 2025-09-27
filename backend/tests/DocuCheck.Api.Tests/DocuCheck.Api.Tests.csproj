@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\DocuCheck.Api\DocuCheck.Api.csproj" />
+    <ProjectReference Include="..\..\src\DocuCheck.Main\DocuCheck.Main.csproj" />
   </ItemGroup>
 
 </Project>

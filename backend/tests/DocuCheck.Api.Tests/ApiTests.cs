@@ -1,19 +1,19 @@
-﻿using System.Threading.Tasks;
-
+﻿
 namespace DocuCheck.Api.Tests;
 
 public class ApiTests
 {
-    [Fact]
-    public async Task GetRoot_ReturnsOk()
+    [Theory]
+    [InlineData("123456789")]
+    [InlineData("1234567AB")]
+    public async Task PostValidDocumentNumber_ReturnsNoContent(string number)
     {
-        using var factory = new DocuCheckFactory();
+        await using var factory = new DocuCheckFactory();
         var client = factory.CreateClient();
 
-        var response = await client.GetAsync("/");
-        response.EnsureSuccessStatusCode();
+        var response = await client.PostAsync($"api/documents/check/{number}", new StringContent(""));
 
-        var content =  await response.Content.ReadAsStringAsync();
-        Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
+        response.EnsureSuccessStatusCode();
+        Assert.Equal(System.Net.HttpStatusCode.NoContent, response.StatusCode);
     }
 }
