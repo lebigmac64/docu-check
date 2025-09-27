@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\DocuCheck.Api\DocuCheck.Api.csproj" />
     <ProjectReference Include="..\DocuCheck.Application\DocuCheck.Application.csproj" />
     <ProjectReference Include="..\DocuCheck.Contracts\DocuCheck.Contracts.csproj" />
     <ProjectReference Include="..\DocuCheck.Domain\DocuCheck.Domain.csproj" />
