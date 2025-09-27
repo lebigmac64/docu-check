@@ -8,7 +8,15 @@ namespace DocuCheck.Main.Extensions
         public static void ConfigureServices(this WebApplicationBuilder builder) 
         {
             builder.AddPersistence();
-            builder.Services.AddHttpClient();
+            builder.AddInfrastructure();
+        }
+        
+        private static void AddInfrastructure(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddHttpClient("MinistryApi", client =>
+            {
+                client.BaseAddress = new Uri(builder.Configuration.GetMinistryApiBaseAddress());
+            });
         }
         
         private static void AddPersistence(this WebApplicationBuilder builder)
@@ -21,7 +29,10 @@ namespace DocuCheck.Main.Extensions
             using var scope = builder.Services.BuildServiceProvider().CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<DocuCheckDbContext>();
             dbContext.Database.EnsureCreated();
-            dbContext.Database.Migrate();
+            if (dbContext.Database.HasPendingModelChanges())
+            {
+                dbContext.Database.Migrate();
+            }
         }
     }
 }

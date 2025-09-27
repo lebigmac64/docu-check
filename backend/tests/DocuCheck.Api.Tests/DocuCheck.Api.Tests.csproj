@@ -30,4 +30,8 @@
     <ProjectReference Include="..\..\src\DocuCheck.Main\DocuCheck.Main.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UnitTests\" />
+  </ItemGroup>
+
 </Project>
