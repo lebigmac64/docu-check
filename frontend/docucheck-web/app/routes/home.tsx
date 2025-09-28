@@ -1,5 +1,5 @@
 import Checker from "~/components/checker/checker";
-import type { Route } from "./+types/home";
+import type {Route} from "../../.react-router/types/app/routes/+types/home";
 
 export function meta({}: Route.MetaArgs) {
   return [
