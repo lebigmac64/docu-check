@@ -1,8 +1,10 @@
-namespace DocuCheck.Main.Extensions;
+using Microsoft.Extensions.Configuration;
+
+namespace DocuCheck.Infrastructure.Extensions;
 
 public static class ConfigurationManagerExtensions
 {
-    public static string GetMinistryApiBaseAddress(this ConfigurationManager configuration)
+    public static string GetMinistryApiBaseAddress(this IConfigurationManager configuration)
     {
         var baseAddress = configuration["HttpClients:MinistryApi:BaseAddress"];
         if (string.IsNullOrWhiteSpace(baseAddress))

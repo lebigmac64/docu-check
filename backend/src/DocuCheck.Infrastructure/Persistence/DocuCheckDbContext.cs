@@ -1,5 +1,4 @@
-using DocuCheck.Domain.Entities.DocumentHistory;
-using DocuCheck.Domain.Entities.DocumentHistory.ValueObjects;
+using DocuCheck.Domain.Entities.ChecksHistory;
 using Microsoft.EntityFrameworkCore;
 
 namespace DocuCheck.Infrastructure.Persistence
@@ -18,30 +17,12 @@ namespace DocuCheck.Infrastructure.Persistence
         
         public const string ConnectionStringKey = "DocuCheckDb";
         
-        public DbSet<DocumentHistory> DocumentHistories { get; set; }
+        public DbSet<CheckHistory> CheckHistory { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(DocuCheckDbContext).Assembly);
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<DocumentHistory>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.Id).ValueGeneratedNever();
-                
-                entity.Property(e => e.Number)
-                    .HasConversion(
-                        number => number.Value,
-                        value => DocumentNumber.Create(value))
-                    .HasMaxLength(15)
-                    .IsRequired();
-                
-                entity.Property(e => e.CheckedAt)
-                    .IsRequired();
-                
-                entity.Property(e => e.ValidationResult)
-                    .IsRequired();
-            });
         }
     }
 }

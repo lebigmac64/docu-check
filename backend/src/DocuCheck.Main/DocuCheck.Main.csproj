@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DocuCheck.Application\DocuCheck.Application.csproj" />
-    <ProjectReference Include="..\DocuCheck.Contracts\DocuCheck.Contracts.csproj" />
     <ProjectReference Include="..\DocuCheck.Domain\DocuCheck.Domain.csproj" />
     <ProjectReference Include="..\DocuCheck.Infrastructure\DocuCheck.Infrastructure.csproj" />
   </ItemGroup>

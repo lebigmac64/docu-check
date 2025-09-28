@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace DocuCheck.Domain.Entities.DocumentHistory.ValueObjects;
+namespace DocuCheck.Domain.Entities.ChecksHistory.ValueObjects;
 
 public class DocumentNumber
 {
@@ -19,7 +19,7 @@ public class DocumentNumber
     }
 
     public string Value { get; private set; }
-
+    
     public static DocumentNumber Create(string value)
     {
         return new DocumentNumber(value);
