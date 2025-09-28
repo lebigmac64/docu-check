@@ -1,5 +1,3 @@
-using DocuCheck.Main;
-using DocuCheck.Main.Endpoints;
 using DocuCheck.Main.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);

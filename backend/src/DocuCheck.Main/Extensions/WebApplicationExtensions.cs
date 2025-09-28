@@ -13,8 +13,6 @@ public static class WebApplicationExtensions
             app.UseDeveloperExceptionPage();
         }
 
-        app.UseForwardedHeaders();
-        app.UseHttpsRedirection();
         app.ConfigureExceptionHandler();
         app.MapEndpoints();
     }

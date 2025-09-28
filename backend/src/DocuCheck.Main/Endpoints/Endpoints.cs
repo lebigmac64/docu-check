@@ -1,6 +1,6 @@
 using System.Text.Json;
+using DocuCheck.Application.Interfaces;
 using DocuCheck.Application.Services;
-using DocuCheck.Domain.Entities.ChecksHistory.Enums;
 using DocuCheck.Main.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +14,7 @@ namespace DocuCheck.Main.Endpoints
         private static void MapDocumentEndpoints(this IEndpointRouteBuilder routeBuilder) =>
             routeBuilder.MapPost("api/documents/check/{documentNumber}",
                 async
-                    ([FromRoute] string documentNumber, HttpContext ctx, DocumentService documentService) =>
+                    ([FromRoute] string documentNumber, HttpContext ctx, [FromServices] IDocumentService documentService) =>
                 {
                     ctx.Response.ContentType = "text/event-stream";
                     ctx.Response.Headers.CacheControl = "no-cache";

@@ -12,6 +12,8 @@ namespace DocuCheck.Api.Tests
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)  
         {
+            builder.UseEnvironment("Testing");
+            
             builder.ConfigureTestServices(services =>
             {
                 services.RemoveAll<DocuCheckDbContext>();

@@ -4,7 +4,7 @@ using DocuCheck.Domain.Entities.ChecksHistory.ValueObjects;
 
 namespace DocuCheck.Application.Services;
 
-public class DocumentService(IMinistryOfInteriorService ministryOfInteriorService)
+internal class DocumentService(IMinistryOfInteriorService ministryOfInteriorService) : IDocumentService
 {
     public async IAsyncEnumerable<CheckResult> CheckDocumentAsync(string documentNumber)
     {

@@ -15,7 +15,7 @@ public static class DependencyInjection
     {
         services.AddPersistence(configuration);
         services.ConfigureHttpClients(configuration);
-            
+
         services.AddScoped<IMinistryOfInteriorService, MinistryOfInteriorService>();
     }
     
