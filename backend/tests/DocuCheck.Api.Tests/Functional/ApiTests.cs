@@ -10,7 +10,7 @@ public class ApiTests
         await using var factory = new DocuCheckFactory();
         var client = factory.CreateClient();
 
-        var response = await client.PostAsync($"api/documents/check/{number}", new StringContent(""));
+        var response = await client.GetAsync($"api/documents/check/{number}");
         response.EnsureSuccessStatusCode();
 
         await using var stream = await response.Content.ReadAsStreamAsync();

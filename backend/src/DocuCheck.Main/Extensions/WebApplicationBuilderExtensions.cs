@@ -16,6 +16,22 @@ namespace DocuCheck.Main.Extensions
             });
             builder.Services.AddApplication();
             builder.Services.AddInfrastructure(builder.Configuration);
+            
+            builder.Services.ConfigureCors();
         }
+        
+        private static void ConfigureCors(this IServiceCollection services) =>
+            services.AddCors(options =>
+            {
+                options.AddPolicy("SsePolicy", policy =>
+                {
+                    policy.WithOrigins("http://localhost:5173", "https://localhost:5173")
+                        .WithMethods("GET, POST")
+                        .WithHeaders("Content-Type")
+                        .AllowCredentials()
+                        .SetIsOriginAllowedToAllowWildcardSubdomains()
+                        .WithExposedHeaders("Content-Type");
+                });
+            });
     }
 }

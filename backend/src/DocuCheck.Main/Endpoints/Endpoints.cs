@@ -12,7 +12,7 @@ namespace DocuCheck.Main.Endpoints
             routeBuilder.MapDocumentEndpoints();
         
         private static void MapDocumentEndpoints(this IEndpointRouteBuilder routeBuilder) =>
-            routeBuilder.MapPost("api/documents/check/{documentNumber}",
+            routeBuilder.MapGet("api/documents/check/{documentNumber}",
                 async
                     ([FromRoute] string documentNumber, HttpContext ctx, [FromServices] IDocumentService documentService) =>
                 {

@@ -7,4 +7,7 @@ var app = builder.Build();
     
 app.ConfigureMiddleware();
     
+
+app.UseCors("SsePolicy");
+
 app.Run();
