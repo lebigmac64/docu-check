@@ -3,13 +3,10 @@ import Header from "~/layouts/header";
 import Footer from "~/layouts/footer";
 
 export default function MainLayout() {
-    return (
-        <div>
+    return (<>
             <Header />
-            <main style={{ flex: 1 }}>
                 <Outlet />
-            </main>
             <Footer />
-        </div>
+        </>
     );
 }
