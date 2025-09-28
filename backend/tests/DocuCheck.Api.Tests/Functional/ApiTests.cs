@@ -1,5 +1,7 @@
-﻿
-namespace DocuCheck.Api.Tests;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+
+namespace DocuCheck.Api.Tests.Functional;
 
 public class ApiTests
 {
@@ -16,6 +18,4 @@ public class ApiTests
         response.EnsureSuccessStatusCode();
         Assert.Equal(System.Net.HttpStatusCode.NoContent, response.StatusCode);
     }
-    
-    
 }

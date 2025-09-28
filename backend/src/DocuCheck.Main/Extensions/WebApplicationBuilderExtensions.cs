@@ -1,4 +1,6 @@
+using System.Net;
 using DocuCheck.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 
 namespace DocuCheck.Main.Extensions
@@ -33,6 +35,30 @@ namespace DocuCheck.Main.Extensions
             {
                 dbContext.Database.Migrate();
             }
+        }
+        
+        public static void ConfigureExceptionHandler(this WebApplication app)
+        {
+            app.UseExceptionHandler(appError =>
+            {
+                appError.Run(async context =>
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    context.Response.ContentType = "application/problem+json";
+
+                    var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
+                    if (contextFeature != null)
+                    {
+                        await context.Response.WriteAsJsonAsync(new
+                        {
+                            type = "https://tools.ietf.org/html/rfc7231#section-6.6.1",
+                            title = "An error occurred while processing your request.",
+                            status = context.Response.StatusCode,
+                            detail = contextFeature.Error.Message
+                        });
+                    }
+                });
+            });
         }
     }
 }

@@ -13,6 +13,8 @@ namespace DocuCheck.Main
 
                 return Results.NoContent();
             });
+            
+            routeBuilder.MapGet("/test/throw", (ctx) => throw new Exception("This is a test exception"));
         }
     }
 }
