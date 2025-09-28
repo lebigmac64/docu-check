@@ -1,4 +1,4 @@
-import Checker from "~/components/checker/checker";
+import DocumentForm from "~/components/document-form";
 import type {Route} from "../../.react-router/types/app/routes/+types/home";
 
 export function meta({}: Route.MetaArgs) {
@@ -9,5 +9,5 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  return <Checker className="flex justify-center flex-col items-center h-screen" />;
+  return <DocumentForm />;
 }
