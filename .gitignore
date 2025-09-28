@@ -691,6 +691,8 @@ FodyWeavers.xsd
 *.db3
 *.s3db
 *.sl3
+*db-wal
+*db-shm
 
 
 # JetBrains Rider
