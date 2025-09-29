@@ -50,3 +50,8 @@ export const parseDate = (dateString: string): string => {
         minute: "2-digit"
     });
 }
+
+export function getInvalidDocTypes(results: CheckResult[]): string[] {
+    const invalidDocs = results.filter((r) => r.ResultType === 0);
+    return invalidDocs.map((doc) => getDocumentType(doc.Type));
+}
