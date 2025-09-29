@@ -1,6 +1,5 @@
 using System.Text.Json;
 using DocuCheck.Application.Interfaces;
-using DocuCheck.Application.Services;
 using DocuCheck.Domain.Entities.ChecksHistory.Enums;
 using DocuCheck.Main.Dtos;
 using Microsoft.AspNetCore.Mvc;
@@ -26,27 +25,21 @@ namespace DocuCheck.Main.Endpoints
                     
                     await foreach (var result in documentService.CheckDocumentAsync(documentNumber))
                     {
-                        var sse = new SseEvent(
-                            Id: Guid.NewGuid().ToString(),
-                            Event: "checkResult",
-                            Data: new DocumentCheckResultDto(
-                                ResultType: (byte)result.ResultType,
-                                Type: (byte)result.Type,
-                                CheckedAt: DateTime.UtcNow,
-                                Note: result.ToString(),
-                                RecordedAt: result.RecordedAtRaw));
+                        var data = new DocumentCheckResultDto(
+                            ResultType: (byte)result.ResultType,
+                            Type: (byte)result.Type,
+                            CheckedAt: DateTime.UtcNow,
+                            Note: result.ToString(),
+                            RecordedAt: result.RecordedAtRaw);
 
-                        var jsonData = JsonSerializer.Serialize(sse.Data);
-                        var sseFrame =
-                            $"id: {sse.Id}\n" +
-                            $"event: {sse.Event}\n" +
-                            $"data: {jsonData}\n\n";
+                        var jsonData = JsonSerializer.Serialize(data);
+                        var sseFrame = $"id: {Guid.NewGuid()}\nevent: checkResult\ndata: {jsonData}\n\n";
 
                         await ctx.Response.WriteAsync(sseFrame);
                         await ctx.Response.Body.FlushAsync();
                     }
 
-                    const string doneFrame = "event: done\ndata: \"All document types checked.\"\n\n";
+                    const string doneFrame = $"event: done\ndata: \"All document types checked.\"\n\n";
                     await ctx.Response.WriteAsync(doneFrame);
                 });
     }

@@ -19,7 +19,7 @@ public class ApiTests
         while (!reader.EndOfStream)
         {
             var line = await reader.ReadLineAsync();
-            if (line != null && line.StartsWith("id: "))
+            if (line != null && line.StartsWith("event"))
             {
                 events.Add(line);
             }
