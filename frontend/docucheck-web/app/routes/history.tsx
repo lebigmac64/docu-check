@@ -1,12 +1,13 @@
-import type {Route} from "../../.react-router/types/app/routes/+types/history";
+import type { Route } from "../../.react-router/types/app/routes/+types/history";
+import HistoryDashboard from "~/components/history-dashboard/history-dashboard";
 
 export function meta({}: Route.MetaArgs) {
-    return [
-        { title: "Historie kontrol" },
-        { name: "description", content: "Historie kontrol dokumentů" },
-    ];
+  return [
+    { title: "Historie kontrol" },
+    { name: "description", content: "Historie kontrol dokumentů" },
+  ];
 }
 
 export default function History() {
-    return <h1>Historie kontrol</h1>
+  return <HistoryDashboard />;
 }
