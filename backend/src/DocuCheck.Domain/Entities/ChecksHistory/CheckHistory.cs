@@ -18,32 +18,29 @@ namespace DocuCheck.Domain.Entities.ChecksHistory
             Guid id,
             DateTime checkedAt,
             DocumentNumber number,
-            CheckResult checkResult)
+            ResultType resultType)
         {
             Id = id;
             CheckedAt = checkedAt;
             Number = number;
-            CheckResult = checkResult;
+            ResultType = resultType;
         }
 
         public Guid Id { get; private set; }
-        
         public DateTime CheckedAt { get; private set; }
-        
         public DocumentNumber Number { get; private set; }
-
-        public CheckResult CheckResult { get; private set; }
+        public ResultType ResultType { get; private set; }
 
         public static CheckHistory Create(
             DateTime checkedAt,
             DocumentNumber number,
-            CheckResult checkResult)
+            ResultType resultType)
         {
             return new CheckHistory(
                 Guid.NewGuid(), 
                 checkedAt, 
                 number, 
-                checkResult);
+                resultType);
         }
     }
 }

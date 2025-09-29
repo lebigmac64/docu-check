@@ -32,7 +32,7 @@ export default function ProgressBar({
     if (freezeOnComplete && frozenRef.current) return;
 
     const clamped = Math.max(0, Math.min(100, Math.round(value)));
-    setProgress((prev) => {
+    setProgress(() => {
       const next = clamped;
       if (freezeOnComplete && next >= 100) {
         frozenRef.current = true;
@@ -60,7 +60,7 @@ export default function ProgressBar({
           }}
         />
         <div className={`absolute inset-0 flex items-center justify-center font-semibold text-sm text-[#E6E6E6]`}>
-          {`${text} ${checked} / ${total}`}
+          {`${text} ${checked < total ? checked : total} / ${total}`}
         </div>
       </div>
     </div>

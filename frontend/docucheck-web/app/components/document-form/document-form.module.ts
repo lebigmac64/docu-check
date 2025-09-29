@@ -2,7 +2,6 @@ export type CheckResult = {
   ResultType: number;
   Type: number;
   CheckedAt: string;
-  Note: string;
   RecordedAt?: string;
 };
 
@@ -15,7 +14,6 @@ export type FullResult = {
 export const ResultType = {
   Invalid: 0,
   Valid: 1,
-  Error: 5,
 };
 
 export const getDocumentType = (type: number): string => {
@@ -37,8 +35,6 @@ export const getResultText = (result: CheckResult): string => {
       return `Neplatný dokument \n(${getDocumentType(result.Type)})`;
     case ResultType.Valid:
       return `Platný dokument \n(${getDocumentType(result.Type)})`;
-    case ResultType.Error:
-      return `Chyba při kontrole (${result.Note})`;
     default:
       return "Neznámý výsledek";
   }

@@ -1,7 +1,7 @@
 using DocuCheck.Domain.Entities.ChecksHistory.Enums;
 using DocuCheck.Domain.Entities.ChecksHistory.ValueObjects;
 
-namespace DocuCheck.Application.Interfaces;
+namespace DocuCheck.Application.Services.Interfaces;
 
 public interface IMinistryOfInteriorService
 {

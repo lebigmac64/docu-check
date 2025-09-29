@@ -1,5 +1,5 @@
-using DocuCheck.Application.Interfaces;
 using DocuCheck.Application.Services;
+using DocuCheck.Application.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DocuCheck.Application;

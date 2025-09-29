@@ -1,5 +1,6 @@
 using System.Net;
 using DocuCheck.Main.Endpoints;
+using DocuCheck.Main.Endpoints.Documents;
 using Microsoft.AspNetCore.Diagnostics;
 
 namespace DocuCheck.Main.Extensions;
@@ -14,7 +15,7 @@ public static class WebApplicationExtensions
         }
 
         app.ConfigureExceptionHandler();
-        app.MapEndpoints();
+        app.MapDocumentEndpoints();
     }
 
     private static void ConfigureExceptionHandler(this WebApplication app)

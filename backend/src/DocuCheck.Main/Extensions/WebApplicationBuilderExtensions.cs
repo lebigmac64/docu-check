@@ -1,5 +1,5 @@
 using DocuCheck.Application;
-using DocuCheck.Application.Interfaces;
+using DocuCheck.Application.Services.Interfaces;
 using DocuCheck.Infrastructure;
 using DocuCheck.Main.Providers;
 

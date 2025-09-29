@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DocuCheck.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddingRecordedRawToCheckHistoryEntity : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,10 +18,7 @@ namespace DocuCheck.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     CheckedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Number = table.Column<string>(type: "TEXT", maxLength: 15, nullable: false),
-                    CheckResult_ResultType = table.Column<int>(type: "INTEGER", nullable: false),
-                    CheckResult_Type = table.Column<int>(type: "INTEGER", nullable: false),
-                    CheckResult_Message = table.Column<string>(type: "TEXT", nullable: true),
-                    CheckResult_RecordedAtRaw = table.Column<string>(type: "TEXT", nullable: false)
+                    ResultType = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

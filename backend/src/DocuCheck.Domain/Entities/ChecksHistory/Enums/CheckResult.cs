@@ -1,27 +1,23 @@
 
 namespace DocuCheck.Domain.Entities.ChecksHistory.Enums;
 
-public record CheckResult(ResultType ResultType, DocumentType Type, string? Message, string RecordedAtRaw = "")
+public record CheckResult
 {
-    public static CheckResult Error(DocumentType type, string message) => new(ResultType.Error, type, message);
-    public static CheckResult Valid(DocumentType type) => new(ResultType.Valid, type, null);
-    public static CheckResult Invalid(DocumentType type, string recordedAtRaw) => new(ResultType.Invalid, type, null, recordedAtRaw);
-
-    public override string ToString()
+    private CheckResult(
+        ResultType ResultType,
+        DocumentType Type,
+        string RecordedAtRaw = "")
     {
-        return ResultType switch
-        {
-            ResultType.Valid   => $"Dokument je platný.",
-            ResultType.Invalid => $"Dokument nalezen v databázi neplatných dokumentů.",
-            ResultType.Error   => Message ?? $"Error při kontrole dokumentu.",
-            _ => throw new ArgumentOutOfRangeException(nameof(ResultType))
-        };
+        this.ResultType = ResultType;
+        this.Type = Type;
+        this.RecordedAtRaw = RecordedAtRaw;
     }
-}
+    
+    public ResultType ResultType { get; init; }
+    public DocumentType Type { get; init; }
+    public string RecordedAtRaw { get; init; }  
 
-public enum ResultType
-{
-    Invalid = 0,
-    Valid = 1,
-    Error = 5
+    public static CheckResult Error(DocumentType type, string message) => new(ResultType.Error, type);
+    public static CheckResult Valid(DocumentType type) => new(ResultType.Valid, type);
+    public static CheckResult Invalid(DocumentType type, string recordedAtRaw) => new(ResultType.Invalid, type, recordedAtRaw);
 }

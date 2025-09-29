@@ -18,23 +18,6 @@ public class ChecksHistoryConfigurations : IEntityTypeConfiguration<CheckHistory
                 value => DocumentNumber.Create(value))
             .HasMaxLength(15)
             .IsRequired();
-
-        entity.OwnsOne(e => e.CheckResult, checkResultBuilder =>
-        {
-            checkResultBuilder
-                .Property(rt => rt.ResultType)
-                .IsRequired();
-            
-            checkResultBuilder
-                .Property(rt => rt.Message)
-                .IsRequired(false);
-            
-            checkResultBuilder
-                .Property(rt => rt.Type);
-
-            checkResultBuilder
-                .Property(rt => rt.RecordedAtRaw);
-        });
             
         entity.Property(e => e.CheckedAt)
             .IsRequired();

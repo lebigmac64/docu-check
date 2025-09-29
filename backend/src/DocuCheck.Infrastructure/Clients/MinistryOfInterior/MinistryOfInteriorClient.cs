@@ -1,4 +1,4 @@
-using DocuCheck.Application.Interfaces;
+using DocuCheck.Application.Services.Interfaces;
 using DocuCheck.Domain.Entities.ChecksHistory.Enums;
 using DocuCheck.Infrastructure.Clients.Responses;
 using DocuCheck.Infrastructure.Helpers;
