@@ -14,13 +14,6 @@ export default function Results({
   return (
     <div>
       <ul>
-        {fullResults.length === 0 && (
-          <li>
-            <p className="text-center text-gray-400 italic">
-              Zatím nejsou k dispozici žádné výsledky.
-            </p>
-          </li>
-        )}
         {fullResults.map((result, index) => (
           <li
             key={index}
