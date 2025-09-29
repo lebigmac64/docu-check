@@ -26,7 +26,7 @@ public class CheckDocumentValidityDto
         return this switch
         {
             { Error: not null } => CheckResult.Error(type, Error.Message ?? "Unknown error"),
-            { Answer.IsRecorded: true } => CheckResult.Invalid(type),
+            { Answer.IsRecorded: true } => CheckResult.Invalid(type, Answer.RecordedAtRaw ?? ""),
             { Answer.IsRecorded: false } => CheckResult.Valid(type),
             _ => throw new InvalidOperationException("Unexpected response from Ministry of Interior API")
         };
@@ -56,6 +56,9 @@ public class AnswerNode
     [XmlAttribute("aktualizovano")] 
     public string? UpdatedRaw { get; set; }
 
+    [XmlAttribute("evidovano_od")]
+    public string? RecordedAtRaw { get; set; }
+    
     [XmlAttribute("evidovano")] 
     public string? RecordedRaw { get; set; }
 

@@ -36,7 +36,7 @@ public static class DependencyInjection
 
         using var scope = services.BuildServiceProvider().CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<DocuCheckDbContext>();
-        if (dbContext.Database.HasPendingModelChanges())
+        if (dbContext.Database.GetPendingMigrations().Any())
         {
             dbContext.Database.Migrate();
         }

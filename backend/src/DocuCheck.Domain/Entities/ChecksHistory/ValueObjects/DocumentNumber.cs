@@ -4,24 +4,24 @@ namespace DocuCheck.Domain.Entities.ChecksHistory.ValueObjects;
 
 public class DocumentNumber
 {
-    [SuppressMessage(
-        "Design", 
-        "CS8618:Non-nullable field must contain a non-null value when exiting constructor." +
-        " Consider adding the 'required' modifier or declaring as nullable.",
-        Justification = "For EF Core")]
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-    private DocumentNumber() { }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+    private DocumentNumber()
+    {
+        // For EF Core
+    }
    
     private DocumentNumber(string value)
     {
         Value = value;
     }
 
-    public string Value { get; private set; }
+    public string Value { get; private set; } = string.Empty;
     
     public static DocumentNumber Create(string value)
     {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            throw new ArgumentException("Document number cannot be null or empty.", nameof(value));
+        }
         return new DocumentNumber(value);
     }
 }

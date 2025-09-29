@@ -1,11 +1,11 @@
 
 namespace DocuCheck.Domain.Entities.ChecksHistory.Enums;
 
-public record CheckResult(ResultType ResultType, DocumentType Type, string? Message)
+public record CheckResult(ResultType ResultType, DocumentType Type, string? Message, string RecordedAtRaw = "")
 {
     public static CheckResult Error(DocumentType type, string message) => new(ResultType.Error, type, message);
     public static CheckResult Valid(DocumentType type) => new(ResultType.Valid, type, null);
-    public static CheckResult Invalid(DocumentType type) => new(ResultType.Invalid, type, null);
+    public static CheckResult Invalid(DocumentType type, string recordedAtRaw) => new(ResultType.Invalid, type, null, recordedAtRaw);
 
     public override string ToString()
     {

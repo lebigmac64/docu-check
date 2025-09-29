@@ -28,7 +28,8 @@ namespace DocuCheck.Main.Endpoints
                                 ResultType: (byte)result.ResultType,
                                 Type: (byte)result.Type,
                                 CheckedAt: DateTime.UtcNow,
-                                Note: result.ToString()));
+                                Note: result.ToString(),
+                                RecordedAt: result.RecordedAtRaw));
 
                         var jsonData = JsonSerializer.Serialize(sse.Data);
                         var sseFrame =
@@ -46,5 +47,5 @@ namespace DocuCheck.Main.Endpoints
     }
 
 
-    public record DocumentCheckResultDto(byte ResultType, byte Type, DateTime CheckedAt, string? Note);
+    public record DocumentCheckResultDto(byte ResultType, byte Type, DateTime CheckedAt, string? Note, string RecordedAt);
 }

@@ -31,6 +31,9 @@ public class ChecksHistoryConfigurations : IEntityTypeConfiguration<CheckHistory
             
             checkResultBuilder
                 .Property(rt => rt.Type);
+
+            checkResultBuilder
+                .Property(rt => rt.RecordedAtRaw);
         });
             
         entity.Property(e => e.CheckedAt)
