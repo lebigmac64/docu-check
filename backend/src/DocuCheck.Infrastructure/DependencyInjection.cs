@@ -6,6 +6,7 @@ using DocuCheck.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace DocuCheck.Infrastructure;
 
