@@ -1,6 +1,7 @@
 using System.Text.Json;
 using DocuCheck.Application.Interfaces;
 using DocuCheck.Application.Services;
+using DocuCheck.Domain.Entities.ChecksHistory.Enums;
 using DocuCheck.Main.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,10 @@ namespace DocuCheck.Main.Endpoints
                     ctx.Response.ContentType = "text/event-stream";
                     ctx.Response.Headers.CacheControl = "no-cache";
 
+                    var total = Enum.GetValues<DocumentType>().Length;
+                    await ctx.Response.WriteAsync($"event: total\ndata: {total}\n\n");
+                    await ctx.Response.Body.FlushAsync();
+                    
                     await foreach (var result in documentService.CheckDocumentAsync(documentNumber))
                     {
                         var sse = new SseEvent(
