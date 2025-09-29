@@ -6,7 +6,7 @@ export default function Footer() {
             <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
                 <div></div>
                 <div className="text-xs text-[#8D90A0]">
-                    © {new Date().getFullYear()} DocuCheck. All rights reserved.
+                    © {new Date().getFullYear()} DocuCheck
                 </div>
                 <div></div>
             </div>

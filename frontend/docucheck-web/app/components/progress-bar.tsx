@@ -24,17 +24,15 @@ export default function ProgressBar({text = "Checking", total = 3, checked = 0, 
     useEffect(() => {
         if (freezeOnComplete && frozenRef.current) return;
 
-        if (typeof value === "number") {
-            const clamped = Math.max(0, Math.min(100, Math.round(value)));
-            setProgress((prev) => {
-                const next = clamped;
-                if (freezeOnComplete && next >= 100) {
-                    frozenRef.current = true;
-                    return 100;
-                }
-                return next;
-            });
-        }
+        const clamped = Math.max(0, Math.min(100, Math.round(value)));
+        setProgress((prev) => {
+            const next = clamped;
+            if (freezeOnComplete && next >= 100) {
+                frozenRef.current = true;
+                return 100;
+            }
+            return next;
+        });
     }, [value, freezeOnComplete]);
 
     return (
