@@ -1,3 +1,4 @@
+using DocuCheck.Application.Common;
 using DocuCheck.Application.Repositories.Interfaces;
 using DocuCheck.Application.Services.Interfaces;
 using DocuCheck.Domain.Entities.ChecksHistory;
@@ -44,10 +45,16 @@ internal class DocumentService(
         }
     }
 
-    public async Task<CheckHistory[]> GetDocumentCheckHistoryAsync(int pageNumber, int pageSize)
+    public async Task<PagedResult<CheckHistory>> GetDocumentCheckHistoryAsync(int pageNumber, int pageSize)
     {
-        var document = await checkHistoryRepository.GetCheckHistoryAsync(pageNumber, pageSize);
+        if (pageNumber < 1)
+            throw new ArgumentException("Page number must be at least 1", nameof(pageNumber));
+
+        if (pageSize < 1)
+            throw new ArgumentException("Page size must be between more than 1", nameof(pageSize));
+
+        var pagedHistoryData = await checkHistoryRepository.GetCheckHistoryAsync(pageNumber, pageSize);
         
-        return document;
+        return pagedHistoryData;
     }
 }

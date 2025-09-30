@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import ProgressBar from "~/components/progress-bar/progress-bar";
+import ProgressBar from "~/components/index/progress-bar/progress-bar";
 import {
   type CheckResult,
   type FullResult,
   getInvalidDocTypes,
   ResultType,
-} from "~/components/document-form/document-form.module";
-import Results from "~/components/results";
+} from "~/components/index/document-form/document-form.module";
+import ResultList from "~/components/index/result-list/result-list";
+import {API_ROOT} from "~/config";
 
 export default function DocumentForm(): React.ReactElement {
   const [docNumber, setDocNumber] = useState("");
@@ -25,7 +26,7 @@ export default function DocumentForm(): React.ReactElement {
     if (!isSubmitting) return;
 
     const url = new URL(
-      `https://localhost:7088/api/documents/check/${docNumber}`,
+      `${API_ROOT}api/documents/check/${docNumber}`,
     );
     const es = new EventSource(url);
     esRef.current = es;
@@ -38,7 +39,6 @@ export default function DocumentForm(): React.ReactElement {
     es.addEventListener("checkResult", (e: MessageEvent) => {
       const parsed = JSON.parse(e.data) as CheckResult;
       setCurrentResults((last) => [parsed, ...last]);
-      console.log(currentResultsRef.current);
     });
 
     es.addEventListener("done", (e: MessageEvent) => {
@@ -80,11 +80,12 @@ export default function DocumentForm(): React.ReactElement {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center  bg-[#2B2D3A] text-[#E6E6E6] font-sans">
+      <>
+    <div className="flex flex-col m-20 items-center justify-center  bg-[#2B2D3A] text-[#E6E6E6] font-sans">
       <div className="bg-[#313445] p-8 rounded-xl m-4 gap-5 max-w-md shadow-2xl border border-[#3D4052]">
         <div className="mb-8">
           <h1 className="text-xl font-semibold mb-6 text-center">
-            Ověření dokumentu vůči databázi neplatných dokumentů
+            Ověření vůči databázi neplatných dokladů
           </h1>
           <form className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
@@ -104,7 +105,7 @@ export default function DocumentForm(): React.ReactElement {
             {!isSubmitting && (
               <button
                 disabled={!docNumber.trim()}
-                className="bg-gradient-to-r from-[#21BFC2] to-[#A77CFF] text-[#0E1015] font-semibold py-3
+                className="bg-[#A77CFF] text-[#0E1015] font-semibold py-3
                         rounded-lg shadow-md disabled:opacity-60 disabled:cursor-not-allowed transition"
                 onClick={handleSubmit}
               >
@@ -120,7 +121,7 @@ export default function DocumentForm(): React.ReactElement {
                 />
                 <button
                   onClick={handleCancel}
-                  className="bg-gradient-to-r from-red-200 to-pink-400 text-[#0E1015] font-semibold py-3 rounded-lg shadow-md mt-4 transition hover:from-red-400 hover:to-pink-600"
+                  className="bg-[#A77CFF] text-[#0E1015] font-semibold py-3 rounded-lg shadow-md mt-4 transition hover:red-400 hover:pink-600"
                 >
                   Zrušit
                 </button>
@@ -140,8 +141,9 @@ export default function DocumentForm(): React.ReactElement {
             )}
           </form>
         </div>
-        <Results fullResults={results} />
+        <ResultList fullResults={results} />
       </div>
     </div>
+    </>
   );
 }

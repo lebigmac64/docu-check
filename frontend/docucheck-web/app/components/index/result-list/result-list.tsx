@@ -1,8 +1,8 @@
-import { type CheckResult } from "~/components/document-form/document-form.module";
+import { type CheckResult } from "~/components/index/document-form/document-form.module";
 import React from "react";
-import CheckResults from "~/components/check-results/check-results";
+import ResultNode from "~/components/index/result-node/result-node";
 
-export default function Results({
+export default function ResultList({
   fullResults,
 }: {
   fullResults: {
@@ -12,7 +12,6 @@ export default function Results({
   }[];
 }) {
   return (
-    <div>
       <ul>
         {fullResults.map((result, index) => (
           <li
@@ -28,10 +27,9 @@ export default function Results({
               </span>
             </div>
             <h5 className="text-sm mb-3">Č. {result.DocumentNumber}</h5>
-            <CheckResults checkResults={result.CheckResults} />
+            <ResultNode checkResults={result.CheckResults} />
           </li>
         ))}
       </ul>
-    </div>
   );
 }

@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text.Json;
+using DocuCheck.Application.Common;
 using DocuCheck.Application.Services.Interfaces;
 using DocuCheck.Domain.Entities.ChecksHistory;
 using DocuCheck.Domain.Entities.ChecksHistory.Enums;
@@ -45,21 +46,25 @@ namespace DocuCheck.Main.Endpoints.Documents
                 async (IDocumentService documentService, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10) =>
                 {
                     var history = await documentService.GetDocumentCheckHistoryAsync(pageNumber, pageSize);
-                    var dto = history.Select(MapCheckHistoryGetDocumentCheckHistoryDto);
+                    var dto = MapCheckHistoryGetDocumentCheckHistoryDto(history);
                     
-                    return Results.Ok(dto.ToArray());
+                    return Results.Ok(dto);
                 });
         }
         
-        private static GetDocumentCheckHistoryDto MapCheckHistoryGetDocumentCheckHistoryDto(CheckHistory history)
+        private static GetDocumentCheckHistoryDto MapCheckHistoryGetDocumentCheckHistoryDto(PagedResult<CheckHistory> pagedHistory)
         {
-            var data = new GetDocumentCheckHistoryDto(
-                Id: history.Id.ToString(),
-                DocumentNumber: history.Number.Value,
-                CheckedAt: history.CheckedAt.ToString(CultureInfo.InvariantCulture),
-                ResultType: (int)history.ResultType);
+            var response = new GetDocumentCheckHistoryDto(
+                TotalCount: pagedHistory.TotalCount.Value,
+                PageNumber: pagedHistory.PageNumber.Value,
+                PageSize: pagedHistory.PageSize.Value,
+                    Items: [.. pagedHistory.Items.Select(ch => new GetDocumentCheckHistoryItemDto(
+                    Id: ch.Id.ToString(),
+                    CheckedAt: ch.CheckedAt.ToString(CultureInfo.InvariantCulture),
+                    DocumentNumber: ch.Number.Value,
+                    ResultType: (int)ch.ResultType))]);
 
-            return data;
+            return response;
         }
 
         private static DocumentCheckResultDto MapCheckResultDocumentCheckResultDto(CheckResult result)

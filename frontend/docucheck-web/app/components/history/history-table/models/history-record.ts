@@ -1,7 +1,7 @@
 export type HistoryRecord = {
   id: string;
   documentNumber: string;
-  documentTypes: number[];
   resultType: number;
+  recordedAt: string;
   checkedAt: string;
 };

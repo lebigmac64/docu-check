@@ -2,11 +2,10 @@ import {
   type CheckResult,
   getInvalidDocTypes,
   ResultType,
-} from "~/components/document-form/document-form.module";
+} from "~/components/index/document-form/document-form.module";
 import React from "react";
 
 export default function CheckResults({checkResults}: {checkResults: CheckResult[]}) {
-    console.log(checkResults);
   const invalid = checkResults.find((r) => r.ResultType === ResultType.Invalid);
   if (invalid !== undefined) {
     return (

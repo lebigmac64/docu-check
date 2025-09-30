@@ -3,7 +3,6 @@ import { useLocation } from "react-router";
 
 export default function Header() {
   let { pathname } = useLocation();
-  console.log(pathname);
 
   return (
     <header className="flex items-center sticky top-0 justify-between bg-[#313445] border-b border-[#3D4052] px-6 py-3 text-[#E6E6E6] font-sans">

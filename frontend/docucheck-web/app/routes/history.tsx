@@ -1,5 +1,5 @@
 import type { Route } from "../../.react-router/types/app/routes/+types/history";
-import HistoryDashboard from "~/components/history-dashboard/history-dashboard";
+import HistoryDashboard from "~/components/history/history-dashboard/history-dashboard";
 
 export function meta({}: Route.MetaArgs) {
   return [
