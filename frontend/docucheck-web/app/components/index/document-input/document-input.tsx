@@ -5,30 +5,28 @@ import {
     getInvalidDocTypes,
     ResultType
 } from "~/components/index/document-form/document-form.module";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef} from "react";
 import {API_ROOT} from "~/config";
+import useDocumentCheck from "~/components/index/document-form/use-document-check";
 
 export default function DocumentInput({
                                           onResultsChanged,
                                       }: {
     onResultsChanged: React.Dispatch<React.SetStateAction<FullResult[]>>;
 }): React.ReactElement {
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [docNumber, setDocNumber] = useState("");
-    const [currentResults, setCurrentResults] = useState([] as CheckResult[]);
-    const [total, setTotal] = useState(0);
+    const [docState, startCheck, resetCheck, setCurrentResults, setTotal, setDocNumber] = useDocumentCheck();
     const esRef = useRef<EventSource | null>(null);
     const currentResultsRef = useRef<CheckResult[]>([]);
 
     useEffect(() => {
-        currentResultsRef.current = currentResults;
-    }, [currentResults]);
+        currentResultsRef.current = docState.currentResults;
+    }, [docState.currentResults]);
 
     useEffect(() => {
-        if (!isSubmitting) return;
+        if (!docState.isSubmitting) return;
 
         const url = new URL(
-            `${API_ROOT}api/documents/check/${docNumber}`,
+            `${API_ROOT}api/documents/check/${docState.docNumber}`,
         );
         const es = new EventSource(url);
         esRef.current = es;
@@ -36,8 +34,8 @@ export default function DocumentInput({
         es.onerror = (err) => {
             console.error("EventSource failed:", err);
             es.close();
-            setIsSubmitting(false);
-            resetForm();
+
+            resetCheck();
         }
 
         es.addEventListener("total", (e: MessageEvent) => {
@@ -52,40 +50,32 @@ export default function DocumentInput({
 
         es.addEventListener("done", (e: MessageEvent) => {
             const fullResult = {
-                DocumentNumber: docNumber,
+                DocumentNumber: docState.docNumber,
                 CheckResults: currentResultsRef.current,
                 CheckedAt: new Date().toISOString(),
             } as FullResult;
 
             es.close();
-            setIsSubmitting(false);
             onResultsChanged((last) => [fullResult, ...last]);
-            resetForm();
+            resetCheck();
         });
 
         return () => {
             es.close();
         };
-    }, [isSubmitting]);
+    }, [docState.isSubmitting]);
 
     const handleSubmit = async (
         e: React.MouseEvent<HTMLButtonElement>,
     ): Promise<void> => {
         e.preventDefault();
-        setIsSubmitting(true);
+        startCheck(docState.docNumber.trim());
     };
-
-    function resetForm() {
-        setDocNumber("");
-        window.dispatchEvent(new CustomEvent("ProgressBarReset"));
-        setCurrentResults([] as CheckResult[]);
-    }
 
     function handleCancel(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
-        setIsSubmitting(false);
         esRef.current?.close();
-        resetForm();
+        resetCheck();
     }
 
 
@@ -99,18 +89,18 @@ export default function DocumentInput({
                     Číslo dokumentu
                 </label>
                 <input
-                    disabled={isSubmitting}
+                    disabled={docState.isSubmitting}
                     id="doc"
                     className="bg-[#2A2C39] border border-[#3D4052] text-[#E6E6E6] px-4 py-3 rounded-lg doc-number-input
                             focus:border-[#21BFC2] focus:ring-3 focus:ring-[#21BFC2]/30 outline-none transition"
                     placeholder="např. AB123456"
-                    value={docNumber}
+                    value={docState.docNumber}
                     onChange={(e) => setDocNumber(e.target.value)}
                 />
             </div>
-            {!isSubmitting && (
+            {!docState.isSubmitting && (
                 <button
-                    disabled={!docNumber.trim()}
+                    disabled={!docState.docNumber.trim()}
                     className="bg-[#A77CFF] text-[#0E1015] font-semibold py-3
                         rounded-lg shadow-md disabled:opacity-60 disabled:cursor-not-allowed transition"
                     onClick={handleSubmit}
@@ -118,12 +108,12 @@ export default function DocumentInput({
                     Ověřit
                 </button>
             )}
-            {isSubmitting && (
+            {docState.isSubmitting && (
                 <>
                     <ProgressBar
                         text={"Ověřuji..."}
-                        checked={currentResults.length + 1}
-                        total={total}
+                        checked={docState.currentResults.length + 1}
+                        total={docState.total}
                     />
                     <button
                         onClick={handleCancel}
@@ -133,7 +123,7 @@ export default function DocumentInput({
                     </button>
                 </>
             )}
-            {currentResults.some(
+            {docState.currentResults.some(
                 (cr) => cr.ResultType === ResultType.Invalid,
             ) && (
                 <div className="flex items-center gap-3 bg-red-900/30 border-l-4 border-red-400 p-3 rounded shadow transition-all duration-300">
@@ -141,7 +131,7 @@ export default function DocumentInput({
                         Nalezen evidovaný dokument typu:
                     </p>
                     <p>
-                        {getInvalidDocTypes(currentResults)}
+                        {getInvalidDocTypes(docState.currentResults)}
                     </p>
                 </div>
             )}
