@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function StatusChip({ resultType }: { resultType: number }) {
+export default React.memo(function StatusChip({ resultType }: { resultType: number }) {
   const map: Record<number, { label: string; cls: string }> = {
     0: {
       label: "Evidovaný",
@@ -21,4 +21,5 @@ export default function StatusChip({ resultType }: { resultType: number }) {
       {label}
     </span>
   );
-}
+}, (prevProps, nextProps) =>
+    prevProps.resultType === nextProps.resultType);

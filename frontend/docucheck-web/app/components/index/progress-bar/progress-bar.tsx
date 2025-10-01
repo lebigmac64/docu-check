@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {useEffect, useState} from "react";
 
 type Props = {
   text?: string;
@@ -7,20 +7,17 @@ type Props = {
   freezeOnComplete?: boolean;
 };
 
-export default function ProgressBar({
-  text = "Checking",
+export default React.memo(function ProgressBar({
+  text,
   total = 3,
   checked = 0,
-  freezeOnComplete = true,
 }: Props): React.ReactElement {
   const [progress, setProgress] = useState(0);
-  const frozenRef = useRef(false);
 
   let value = total > 0 ? (checked / total) * 100 : 0;
 
   useEffect(() => {
     const handler = () => {
-      frozenRef.current = false;
       setProgress(0);
     };
     window.addEventListener("ProgressBarReset", handler);
@@ -29,18 +26,12 @@ export default function ProgressBar({
   }, []);
 
   useEffect(() => {
-    if (freezeOnComplete && frozenRef.current) return;
 
     const clamped = Math.max(0, Math.min(100, Math.round(value)));
     setProgress(() => {
-      const next = clamped;
-      if (freezeOnComplete && next >= 100) {
-        frozenRef.current = true;
-        return 100;
-      }
-      return next;
+      return clamped;
     });
-  }, [value, freezeOnComplete]);
+  }, [value]);
 
   return (
     <div className="w-full">
@@ -65,4 +56,8 @@ export default function ProgressBar({
       </div>
     </div>
   );
-}
+}, (prevProps, nextProps) => {
+  return prevProps.checked === nextProps.checked
+      && prevProps.total === nextProps.total
+      && prevProps.text === nextProps.text;
+});
