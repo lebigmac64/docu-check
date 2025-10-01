@@ -26,7 +26,7 @@ namespace DocuCheck.Main.Extensions
                 options.AddPolicy("SsePolicy", policy =>
                 {
                     policy.WithOrigins("http://localhost:5173", "https://localhost:5173")
-                        .WithMethods("GET, POST")
+                        .WithMethods("GET", "POST")
                         .WithHeaders("Content-Type")
                         .AllowCredentials()
                         .SetIsOriginAllowedToAllowWildcardSubdomains()
