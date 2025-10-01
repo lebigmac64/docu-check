@@ -17,14 +17,14 @@ type Response = {
 }
 
 export default function HistoryDashboard() : ReactElement {
-    const [response, setResponse] = useState<Response>({totalCount: 0, pageSize: 0, currentPage: 1, items: []});
+    const [response, setResponse] = useState<Response>({totalCount: 0, pageSize: 10, currentPage: 1, items: []});
     const [request, setRequest] = useState<Request>({pageNumber: 1, pageSize: 10});
 
     useEffect(() => {
+        const abortController = new AbortController();
         async function fetchRecords() {
-            const abortController = new AbortController();
             try {
-                const uri = `${API_ROOT}api/documents/history?pageNumber=${request.pageNumber}&pageSize=${request.pageSize}`;
+                const uri = new URL(`${API_ROOT}api/documents/history?pageNumber=${request.pageNumber}&pageSize=${request.pageSize}`);
                 const response = await fetch(uri, {signal: abortController.signal});
 
                 if (!response.ok) {
@@ -38,6 +38,10 @@ export default function HistoryDashboard() : ReactElement {
         }
 
         fetchRecords();
+
+        return () => {
+            abortController.abort();
+        }
     }, [request]);
 
     function handleRequestChanged(newPage: number) {

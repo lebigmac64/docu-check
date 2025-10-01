@@ -7,11 +7,9 @@ import {
 } from "~/components/index/document-form/document-form.module";
 import React, {useEffect, useRef} from "react";
 import {API_ROOT} from "~/config";
-import useDocumentCheck from "~/components/index/document-form/use-document-check";
+import useDocumentCheck from "~/components/hooks/use-document-check";
 
-export default function DocumentInput({
-                                          onResultsChanged,
-                                      }: {
+export default function DocumentInput({onResultsChanged}: {
     onResultsChanged: React.Dispatch<React.SetStateAction<FullResult[]>>;
 }): React.ReactElement {
     const [docState, startCheck, resetCheck, setCurrentResults, setTotal, setDocNumber] = useDocumentCheck();
