@@ -98,16 +98,6 @@ export default function DocumentInput({
                     onChange={(e) => setDocNumber(e.target.value)}
                 />
             </div>
-            {!docState.isSubmitting && (
-                <button
-                    disabled={!docState.docNumber.trim()}
-                    className="bg-[#A77CFF] text-[#0E1015] font-semibold py-3
-                        rounded-lg shadow-md disabled:opacity-60 disabled:cursor-not-allowed transition"
-                    onClick={handleSubmit}
-                >
-                    Ověřit
-                </button>
-            )}
             {docState.isSubmitting && (
                 <>
                     <ProgressBar
@@ -115,14 +105,15 @@ export default function DocumentInput({
                         checked={docState.currentResults.length + 1}
                         total={docState.total}
                     />
-                    <button
-                        onClick={handleCancel}
-                        className="bg-[#A77CFF] text-[#0E1015] font-semibold py-3 rounded-lg shadow-md mt-4 transition hover:red-400 hover:pink-600"
-                    >
-                        Zrušit
-                    </button>
                 </>
             )}
+            <button
+                disabled={!docState.docNumber.trim()}
+                onClick={docState.isSubmitting ? handleCancel : handleSubmit}
+                className="bg-[#A77CFF] text-[#0E1015] font-semibold py-3 rounded-lg shadow-md mt-4 transition hover:red-400 hover:pink-600"
+            >
+                {docState.isSubmitting ? "Zrušit" : "Ověřit"}
+            </button>
             {docState.currentResults.some(
                 (cr) => cr.ResultType === ResultType.Invalid,
             ) && (
